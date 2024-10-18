@@ -15,3 +15,6 @@ appId: "1:572956547059:web:1db2a9ac26ccd37b9e6486"
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+var file = document.getElementById('fileId')
+addEventListener('submit')
