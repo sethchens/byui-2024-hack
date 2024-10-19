@@ -20,37 +20,31 @@ const storage = getStorage(app);
 
 document.getElementById('uploadForm').addEventListener('submit', function(event){
     event.preventDefault();
+    const functions = firebase.functions();
+    const requestProccess = functions.httpsCallable('request_proccess');
 
     const fileInput = document.getElementById('fileId');
     const file = fileInput.files[0];
-    
+
     if (file){
         const fileName = file.name;
         const storageRef = ref(storage, 'images/' + fileName);
+
         uploadBytes(storageRef, file).then((snapshot) => {
             console.log('Uploaded a file!', snapshot);
             document.getElementById('uploadStatus').innerText = "Image uploaded successfully!";
             console.log(getDownloadURL(storageRef))
             return getDownloadURL(storageRef);
         }).then((url) => {
-            console.log("update?")
+d
             display(url, fileName)
             console.log("File available at: " + url);
-            $.ajax({
-                url: '/upload', // Specify the full URL
-                type: 'POST',
-                processData: false,
-                contentType: false,
-                data: JSON.stringify({file_name: fileName}),
-                success: function(response){
-                    console.log("hehe");
-                    $('#result').text(response);
-                },
-                error: function (xhr, status, error){
-                    console.log('Error:' + error);
-                    $('#result').text('Error: ' + error);
-                }
-            });
+            detections = requestProccess(file)
+            const result = document.getElementById('#result');
+    
+            // Replace the content with new HTML
+            result.innerHTML = `<p>${detections}</p>;`
+
             
         }).catch((error) => {
             document.getElementById('runningStatus').innerText = error;
