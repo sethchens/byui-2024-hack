@@ -19,12 +19,14 @@ class resnet_50_model():
         target_sizes = torch.tensor([image.size[::-1]])
         results = self.processor.post_process_object_detection(outputs, target_sizes=target_sizes, threshold=0.9)[0]
 
+        detections = []
         for score, label, box in zip(results["scores"], results["labels"], results["boxes"]):
             box = [round(i, 2) for i in box.tolist()]
-
+ 
             # We only care about person label
             if self.model.config.id2label[label.item()] == "person":
-                print(
-                        f"Detected {self.model.config.id2label[label.item()]} with confidence "
-                        f"{round(score.item(), 3)} at location {box}"
+                detections.append(
+                    f"Detected {self.model.config.id2label[label.item()]} with confidence "
+                    f"{round(score.item(), 3)} at location {box}"
                 )
+        return detections

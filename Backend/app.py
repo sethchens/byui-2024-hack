@@ -22,7 +22,7 @@ firebase_admin.initialize_app(cred, {
 bucket = storage.bucket()
 
 # Define a url decorator for the client to upload the iamge
-@app.route('/upload', methods=['Post'])
+@app.route('/upload', methods=['POST'])
 def upload_proccess_image():
 
     # In order to make this work, the name of the file input field should be 'file' as well
@@ -30,8 +30,13 @@ def upload_proccess_image():
         return jsonify('error', 'No file uploaded.')
 
     file = request.files['file']
-    image = Image.open(file.stream)
-    detection = model.proccess(image)
+    if file:
+        image = Image.open(file.stream)
+        detection = model.proccess(image)
+        return jsonify(detection)
+    else:
+        return jsonify({'error': "App error!"})
+    
 
     '''
     The output from the model should look something liek this:
@@ -47,5 +52,5 @@ def upload_proccess_image():
     }
     This means that the button should be await and catch the return output :)
     '''
-    return jsonify(detection)
+    return jsonify({'detections': detection})
     

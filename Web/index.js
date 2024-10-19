@@ -23,7 +23,7 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
 
     const fileInput = document.getElementById('fileId');
     const file = fileInput.files[0];
-
+    
     if (file){
         const fileName = file.name;
         const storageRef = ref(storage, 'images/' + fileName);
@@ -37,24 +37,31 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
             display(url, fileName)
             console.log("File available at: " + url);
             console.log(JSON.stringify({ file_name: fileName}));
-
-            return $.ajax({
-                url: '/upload',
+            const formData = new FormData();
+            formData.append('file', file);
+            $.ajax({
+                url: '/upload', // Specify the full URL
                 type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({ file_name: fileName }),
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function(response){
+                    $('#result').text(response);
+                },
+                error: function (xhr, status, error){
+                    console.error('Error:', status, error);
+                    $('#result').text('Error: ' + error);
+                }
             });
-        }).then((response) => {
-
-            $('#result').text(response);
+            
         }).catch((error) => {
-            console.error('Error:', error);
-            document.getElementById('runningStatus').innerText = "Failed to upload image!";
-            $('#result').text('Error: ' + error);
+            document.getElementById('runningStatus').innerText = error;
         });
     } else {
         document.getElementById('uploadStatus').innerText = "No image selected!";
     }
+
+    
 })
 
 function display(url, fileName){
