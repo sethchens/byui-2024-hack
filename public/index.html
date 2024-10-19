@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <form id="uploadForm">
-        <input name="file" type="file" id="fileId" class="fileInput" accept="image/png, image/jpeg"/>
+    <form method="POST" id="uploadForm" enctype="multipart/form-data">
+        <input name="uploadedFile" type="file" id="fileId" class="fileInput" accept="image/png, image/jpeg"/>
         <label for="fileId">+</label>
         <button type="submit" id="btn">Upload File</button>
     </form>

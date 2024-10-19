@@ -25,15 +25,15 @@ bucket = storage.bucket()
 @app.route('/upload', methods=['POST'])
 def upload_proccess_image():
 
-    # In order to make this work, the name of the file input field should be 'file' as well
-    if 'file' not in request.files:
+    # In order to make this to work, the name of the file input field should be 'file' as well
+    if 'uploadedFile' not in request.files:
         return jsonify('error', 'No file uploaded.')
 
     file = request.files['file']
     if file:
         image = Image.open(file.stream)
-        detection = model.proccess(image)
-        return jsonify(detection)
+        detections = model.proccess(image)
+        return jsonify({'detections': detections})
     else:
         return jsonify({'error': "App error!"})
     
@@ -52,5 +52,4 @@ def upload_proccess_image():
     }
     This means that the button should be await and catch the return output :)
     '''
-    return jsonify({'detections': detection})
     
