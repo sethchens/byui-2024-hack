@@ -8,9 +8,19 @@ body{
     justify-content: center;
     align-items: center;
     height: 100vh;
+    flex-direction: column;
 }
 .fileInput{
     display: none;
+}
+form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.uploadImg{
+    width: 300px;
 }
 label{
     display: flex;
@@ -22,12 +32,13 @@ label{
     background: linear-gradient(45deg, yellow, red);
     color: white;
     cursor: pointer;
+    margin-bottom: 10px;
 }
 #btn{
     display: flex;
     width: 150px;
     height: 50px;
-    font-size: 20px;
+    font-size: 15px;
     justify-content: center;
     align-items: center;
 }
