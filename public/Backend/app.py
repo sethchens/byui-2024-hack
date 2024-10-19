@@ -1,6 +1,6 @@
 import firebase_admin
 from PIL import Image
-from model import resnet_50_model
+from functions.model import resnet_50_model
 from flask import Flask, request, jsonify
 from firebase_admin import credentials, storage
 
