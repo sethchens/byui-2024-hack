@@ -1,11 +1,13 @@
 import firebase_admin
 from PIL import Image
+from flask_cors import CORS
 from model import resnet_50_model
 from flask import Flask, request, jsonify
 from firebase_admin import credentials, storage
 
 # Init a flask instance
 app = Flask(__name__)
+CORS(app)
 
 # Init rersnet-50 model
 model = resnet_50_model()
@@ -25,15 +27,15 @@ bucket = storage.bucket()
 @app.route('/upload', methods=['POST'])
 def upload_proccess_image():
 
-    # In order to make this work, the name of the file input field should be 'file' as well
-    if 'file' not in request.files:
+    # In order to make this to work, the name of the file input field should be 'file' as well
+    if 'uploadedFile' not in request.files:
         return jsonify('error', 'No file uploaded.')
 
     file = request.files['file']
     if file:
         image = Image.open(file.stream)
-        detection = model.proccess(image)
-        return jsonify(detection)
+        detections = model.proccess(image)
+        return jsonify({'detections': detections})
     else:
         return jsonify({'error': "App error!"})
     
@@ -52,5 +54,4 @@ def upload_proccess_image():
     }
     This means that the button should be await and catch the return output :)
     '''
-    return jsonify({'detections': detection})
     

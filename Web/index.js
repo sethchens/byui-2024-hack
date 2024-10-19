@@ -36,9 +36,8 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
 
             display(url, fileName)
             console.log("File available at: " + url);
-            console.log(JSON.stringify({ file_name: fileName}));
-            const formData = new FormData();
-            formData.append('file', file);
+            var form = $('#uploadForm')[0];
+            var formData = new FormData(form);
             $.ajax({
                 url: '/upload', // Specify the full URL
                 type: 'POST',
