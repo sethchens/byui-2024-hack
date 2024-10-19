@@ -58,6 +58,10 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
 })
 
 function display(url, fileName){
-    var templeImg = `<img class="uploadImg" src="${url}" alt="${fileName}">`
+    var templeImg = `<img id="new-element" class="uploadImg" src="${url}" alt="${fileName}">`
+    const newElement = document.getElementById('new-element');
+      if (newElement) {
+        newElement.remove();
+      }
     document.getElementById('imgContainer').insertAdjacentHTML('afterbegin', templeImg)
 }
