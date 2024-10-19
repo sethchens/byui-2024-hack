@@ -33,18 +33,17 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
             console.log(getDownloadURL(storageRef))
             return getDownloadURL(storageRef);
         }).then((url) => {
-
+            console.log("update?")
             display(url, fileName)
             console.log("File available at: " + url);
-            var form = $('#uploadForm')[0];
-            var formData = new FormData(form);
             $.ajax({
                 url: '/upload', // Specify the full URL
                 type: 'POST',
                 processData: false,
                 contentType: false,
-                data: formData,
+                data: JSON.stringify({file_name: fileName}),
                 success: function(response){
+                    console.log("hehe");
                     $('#result').text(response);
                 },
                 error: function (xhr, status, error){
