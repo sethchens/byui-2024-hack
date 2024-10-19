@@ -1,13 +1,11 @@
 import firebase_admin
 from PIL import Image
-from flask_cors import CORS
 from model import resnet_50_model
 from flask import Flask, request, jsonify
 from firebase_admin import credentials, storage
 
 # Init a flask instance
 app = Flask(__name__)
-CORS(app)
 
 # Init rersnet-50 model
 model = resnet_50_model()

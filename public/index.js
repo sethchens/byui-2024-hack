@@ -48,7 +48,7 @@ document.getElementById('uploadForm').addEventListener('submit', function(event)
                     $('#result').text(response);
                 },
                 error: function (xhr, status, error){
-                    console.error('Error:', status, error);
+                    console.log('Error:' + error);
                     $('#result').text('Error: ' + error);
                 }
             });
